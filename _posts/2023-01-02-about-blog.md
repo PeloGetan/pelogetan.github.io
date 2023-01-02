@@ -1,6 +1,6 @@
 ---
 layout: post
-title: О этом блоге
+title: Об этом блоге
 published: true
 ---
 Этот блог всецело посвящен движку Unreal Engine.
