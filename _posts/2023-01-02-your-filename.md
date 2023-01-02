@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Test Post
+title: О этом блоге
 published: true
 ---
 ## Ололо
