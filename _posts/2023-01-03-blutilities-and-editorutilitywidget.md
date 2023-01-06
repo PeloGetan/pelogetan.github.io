@@ -33,18 +33,25 @@ published: false
 Допустим, нам нужно разместить 10 кубов не просто в пространстве, а обязательно положить их на наклонную поверхность с правильным углом.  
 Звучит сложнее, да и времени займет больше, особенно, если количество кубов вырастет с 10 до 100 или 1000.  
 А теперь доработаем наше блютилити, чтобы оно делало эту работу за нас:  
-1 - Добавляем наклонную поверхность.  
-2 - Добавляем новую логику в блюпринт.  
+Добавляем новую логику в блюпринт
+![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.10.png)  
 Жмем кнопку, все работает, отлично!  
+![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.11.png)  
 
 # EditorUtilityWidget
 **EditorUtilityWidget** или ЭдиторЮтилитиВиджет - это блюпринт виджет, наследованный от **UEditorUtilityWidget**, который позволяет запускать его прямо в эдиторе и выполнять любую написанную в нем логику.  
 Как сделать:  
-1 - Для начала создадим новый **EditorUtilityWidget**.  
+1 - Для начала создадим новый **EditorUtilityWidget**.
+![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.12.png)  
 2 - Теперь добавим кнопку и текст, напишем что она будет делать.  
-3 - Откроем **EventGraph** и добавим логику.  
-В моем случае, нажатие кнопки приведет к изменению материала всех BP_Box на материал травы.  
+![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.13.png)  
+3 - Откроем **EventGraph** и добавим логику.
+![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.14.png)  
+В моем случае, нажатие кнопки приведет к изменению материала кадого второго BP_Box.  
 Чтобы запустить виджет, нужно нажать на него **ПКМ** и выбрать "**Run Editor Utility Widget**"  
+![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.14.png)  
+Жмем кнопку и радуемся результату:
+
 
 # Заключение
 Используя **EditorUtilityWidget** и **Blutility**, можно создать удивительные и крайне полезные инструменты размером с целые плагины.  
