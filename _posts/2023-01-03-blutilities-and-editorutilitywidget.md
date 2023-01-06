@@ -1,8 +1,9 @@
 ---
 layout: post
 title: Blutilities и EditorUtilityWidget
-published: false
+published: true
 ---
+![]({{site.baseurl}}/https://pelogetan.github.io/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.1.png)  
 И Blutilities, и EditorUtilityWidget выполняют одну и ту же задачу, экономят нам время. Они призываны автоматизировать ту работу, которой мы можем составить алгоритм.
 Например, покрасить каждое второе дерево на уровне в желтый, поставить лампу на каждую тумбочку, или что угодно еще, что мы можем, но не хотим делать самостоятельно.
 
