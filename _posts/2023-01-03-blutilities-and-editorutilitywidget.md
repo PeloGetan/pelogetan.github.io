@@ -50,9 +50,9 @@ published: true
 ![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.14.png)  
 В моем случае, нажатие кнопки приведет к изменению материала кадого второго BP_Box.  
 Чтобы запустить виджет, нужно нажать на него **ПКМ** и выбрать "**Run Editor Utility Widget**"  
-![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.14.png)  
+![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.15.png)  
 Жмем кнопку и радуемся результату:
-
+![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.16.png)  
 
 # Заключение
 Используя **EditorUtilityWidget** и **Blutility**, можно создать удивительные и крайне полезные инструменты размером с целые плагины.  
