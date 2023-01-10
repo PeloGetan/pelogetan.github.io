@@ -27,7 +27,7 @@ published: true
 1 - В блютилити добавлю простейшую логику:  
   В начало ивента поставлю цикл **For Loop** на десять шагов, в теле цикла будет создаваться **BP_Box** и ему будет назначаться **Transfrom** с вычисленным **Location**. **Location** берет **Y** и **Z** координаты от блютилити, **X** получается умножением индекса цикла на 150 и сложением этого числа с **X** координатой блютилити.
 ![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.8.png)  
-2 - Комплируем, сохраняем и пробуем запустить блютилити.
+2 - Компилируем, сохраняем и пробуем запустить блютилити.
 ![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.9.png)  
 Отлично, все работает.  
 
