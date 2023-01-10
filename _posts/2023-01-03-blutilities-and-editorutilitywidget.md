@@ -52,10 +52,10 @@ published: true
 3 - Откроем **EventGraph** и добавим логику.  
   В начале ивента создам ноду **GetAllActorsOfClass**, которая будет искать все **BP_Box** на уровне. По найденным экторам пройдет цикл, внутри которого нода **FlipFlop** будет вызывать **SetMaterial** через раз, благодаря чему можно добиться изменения материала у каждого второго эктора. 
 ![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.14.png)  
-4 - Чтобы запустить виджет, нужно нажать на него **ПКМ** и выбрать "**Run Editor Utility Widget**"  
+4 - Чтобы запустить виджет, нужно кликнуть на него **ПКМ** и выбрать "**Run Editor Utility Widget**"  
 ![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.15.png)  
 5 - Жмем кнопку и радуемся результату:
 ![]({{site.baseurl}}/images/2023-01-03-blutilities-and-editorutilitywidget/2023-01-03-blutilities-and-editorutilitywidget.16.png)  
 
 # Заключение
-Используя **EditorUtilityWidget** и **Blutility**, можно создать удивительные и крайне полезные инструменты размером с целые плагины. Их функционал можно сильно расширить, если добавить код в C++, который позволит менять CDO блюпринтов, о чем я обязательно напишу в следующем посте.  
+Используя **EditorUtilityWidget** и **Blutility**, можно создать удивительные и крайне полезные инструменты, размером с целые плагины. Их функционал можно сильно расширить, если добавить код в C++, который позволит менять CDO блюпринтов, о чем я обязательно напишу в следующем посте.  
