@@ -25,6 +25,7 @@ CDO создается совершенно для любого блюпринт
 
 Нам нужно создать BlueprintFunctionLibrary, в которую мы добавим функцию, которая будет возвращать CDO блюпрнта.  
 MyBlueprintFunctionLibrary.h:
+    
     #pragma once
     
     #include "CoreMinimal.h"
