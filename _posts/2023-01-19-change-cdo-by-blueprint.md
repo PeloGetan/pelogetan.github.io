@@ -25,22 +25,22 @@ CDO создается совершенно для любого блюпринт
 Нам нужно создать BlueprintFunctionLibrary, в которую мы добавим функцию, которая будет возвращать CDO блюпрнта.  
 MyBlueprintFunctionLibrary.h:
     #pragma once
-
+    
     #include "CoreMinimal.h"
     #include "Kismet/BlueprintFunctionLibrary.h"
     #include "MyBlueprintFunctionLibrary.generated.h"
-
+    
     UCLASS()
     class THIRDPERSONPROJ_API UMyBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
     {
-        GENERATED_BODY()
-
+    	GENERATED_BODY()
+    
         UFUNCTION(BlueprintCallable, Category = "MyBlueprintFunctionLibrary")
         static UObject* GetCDO(UClass* Class)
       {
         return Class->GetDefaultObject();
       }
-
+    	
     };
 
 GetDefaultObject() как раз та самая C++ функция, которая возвращает CDO блюпринта и позволяет нам с ним делать все, что мы хотим.  
