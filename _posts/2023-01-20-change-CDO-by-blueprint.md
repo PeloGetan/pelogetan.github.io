@@ -80,5 +80,5 @@ GetDefaultObject() как раз та самая C++ функция, котор�
 Пример в этой статье может показаться надуманным, но он призван, в первую очередь, показать принцип работы.  
 
 # Полезные ссылки:
-Подробный пост про CDO - https://1danielcoelho.github.io/unreal-engine-basics-base-classes/
+Подробный пост про CDO - https://1danielcoelho.github.io/unreal-engine-basics-base-classes/  
 Unreal Property System (Reflection) - https://www.unrealengine.com/en-US/blog/unreal-property-system-reflection
