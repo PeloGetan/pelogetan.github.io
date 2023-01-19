@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Измениение CDO с помощью блюпринта
-published: true
+published: false
 ---
 # Введение
 Иногда возникает ситуация, когда база блюпринтов одного типа разрастается до десятков и сотен, например в игре большое количество оружия и амуниции, или заклинаний и зелий.
@@ -81,4 +81,4 @@ GetDefaultObject() как раз та самая C++ функция, котор�
 
 # Полезные ссылки:
 Подробный пост про CDO - https://1danielcoelho.github.io/unreal-engine-basics-base-classes/
-Unreal Property System (Reflection) - https://www.unrealengine.com/en-US/blog/unreal-property-system-reflection 
+Unreal Property System (Reflection) - https://www.unrealengine.com/en-US/blog/unreal-property-system-reflection
