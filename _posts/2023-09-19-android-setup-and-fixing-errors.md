@@ -3,13 +3,13 @@ layout: post
 title: Unreal Engine 4.27 настройка Android билда
 published: true
 ---
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.preview.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.preview.png)
 # Введение
 К сожалению [официальный гайд](https://docs.unrealengine.com/4.27/en-US/SharingAndReleasing/Mobile/Android/Setup/) по настройке Android билда на UE4.27 устарел и если сейчас полностью следовать ему, то вы гарантированно получите такие ошибки:
 - Could not determine the dependencies of task ':app:compileDebugJavaWithJavac'.
 - Installed Build Tools revision 34.0.0 is corrupted. Remove and install again using the SDK Manager.
 - ERROR: cmd.exe failed with args /c "C:\PeloGetan\ProjectName\Intermediate\Android\armv7\gradle\rungradle.bat" :app:assembleDebug.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.1.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.1.png)
 Я потратил много своего времени на попытки исправить эти и многие последующие ошибки. Поэтому написал этот гайд, в котором подробно объясню, что и куда надо нажимать, чтобы ничего не сломать.
 
 # Если вы делали все точно по официальному гайду и еще не успели сделать что-то еще
@@ -32,49 +32,49 @@ published: true
   C:\[Ваш проект на UE4]\Intermediate\Android
   C:\[Ваш проект на UE4]\DerivedDataCache
 3. Открываем "Этот компьютер", жмем ПКМ по пустому пространству внутри окна и выбираем "Свойства".
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.2.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.2.png)
 4. В открывшемся окне выбираем "Дополнительные параметры системы"->"Переменные среды"
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.3.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.3.png)
 5. Удаляем следующие переменные среды:
   - ANDROID_HOME
   - JAVA_HOME
   - NDK_ROOT
   - NDRROOT
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.4.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.4.png)
 4. Перезапускаем ПК.
 Ура, мы избавились от мусора, который остался от предыдущих попыток.
 
 # Установка Android Studio 4 и настройка
 В официальном гайде Эпики просят устанавливать Android Studio 4, так и делаем, скачать его можно [с официального сайта](https://developer.android.com/studio/archive), **нужен Android Studio 4.0 May 28, 2020**.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.5.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.5.png)
 1. Запускаем установщик. На всех шагах все оставляем как есть.
 2. Запускаем Android Studio. Так же на всех шагах все оставляем как есть.
 3. Когда настройка завершена и Android Studio запущен, жмем Configure->SDK Manager.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.6.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.6.png)
 4. Открываем вкладку SDK Tools и жмем галочку напротив Show Package Details.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.7.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.7.png)
 5. Ищем в списке Android SDK Command-line Tools и выбираем его.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.8.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.8.png)
 6. Жмем Apply->OK->Accept и ждем окончания установки.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.9.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.9.png)
 7. Когда установка завершилась, жмем Finish и закрываем студию, она нам больше не понадобится.
 8. Теперь нам нужно перейти в папку с движком, в моем случае это **C:\UE4.27\UnrealEngine\Engine\Extras\Android**. Тут нам нужен один из файлов **SetupAndroid**, выберете его в зависимости от вашей ОС (SetupAndroid.bat is for Windows, SetupAndroid.command is for Mac, and SetupAndroid.sh is for Linux).
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.10.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.10.png)
 5. Далее одно из действий в зависимости от файла:
 - **SetupAndroid.bat**, меняем все строки **SDKMANAGER=** на **SDKMANAGER=%STUDIO_SDK_PATH%\cmdline-tools\8.0\bin\sdkmanager.bat**
 - **SetupAndroid.command** или **SetupAndroid.sh**, меняем все строки **SDKMANAGERPATH=** на **SDKMANAGERPATH="$STUDIO_SDK_PATH/cmdline-tools/8.0/bin"**
 По сути такие строки там всего две и они рядом.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.11.png)
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.12.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.11.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.12.png)
 6. Запускаем измененный файл и ждем, когда прогресс завершится успешно.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.13.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.13.png)
 7. Перезапускаем ПК.
 8. Запускаем движок, открываем вкладку **Edit->Project Settings** в левом меню окна ищем **Android** и в правом жмем **Configure Now**, если не сделали это ранее.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.14.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.14.png)
 9. Листаем ниже до Google Play Servicess, тут тоже жмем **Configure Now**.
 ![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.15.png)
 10. В левом меню ищем **Android SDK**, тут можно указать путь к SDK, NDK, Java и выбрать версию. Часто в гайдах говорят сюда что-то вписывать. Если у вас стандартные пути, ничего сюда не вписывайте, оставьте как на скриншоте.
-![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.16.png)
+![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.16.png)
 11. Начинаем билд под андройд. Если все было сделано по инструкции, то никаких ошибок быть не должно.
 
 # Если вдруг возникла возникла ошибка
