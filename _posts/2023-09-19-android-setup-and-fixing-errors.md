@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Unreal Engine 4.27 настройка Android билда
-published: false
+published: true
 ---
 ![]({{site.baseurl}}images\2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.preview.png)
 # Введение
