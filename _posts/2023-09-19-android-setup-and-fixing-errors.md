@@ -27,10 +27,8 @@ published: true
 - C:\Users\user\.android  
 - C:\Users\user\.gradle  
 - C:\Users\user\AppData\Local\Android  
-- C:\[Ваш проект на UE4]\Build\Android  
-- C:\[Ваш проект на UE4]\Build\Android_MultiClient  
-- C:\[Ваш проект на UE4]\Intermediate\Android  
-- C:\[Ваш проект на UE4]\Intermediate\Build\Android  
+- C:\[Ваш проект на UE4]\Build\  
+- C:\[Ваш проект на UE4]\Intermediate\  
 - C:\[Ваш проект на UE4]\DerivedDataCache  
 **3.** Открываем "Этот компьютер", жмем ПКМ по пустому пространству внутри окна и выбираем "Свойства".  
 ![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.2.png)
@@ -84,14 +82,9 @@ published: true
 # Если вдруг возникла возникла ошибка
 Может быть такое что в какой-то момент во время билда появится какая-нибудь ошибка и чтение лога не дает нормального понимания в чем дело, то нужно снова выполнить этот шаг:  
 Удаляем папки:  
-- C:\Program Files\Android  
-- C:\Users\user\.android  
 - C:\Users\user\.gradle  
-- C:\Users\user\AppData\Local\Android  
-- C:\[Ваш проект на UE4]\Build\Android  
-- C:\[Ваш проект на UE4]\Build\Android_MultiClient  
-- C:\[Ваш проект на UE4]\Intermediate\Android  
-- C:\[Ваш проект на UE4]\Intermediate\Build\Android  
+- C:\[Ваш проект на UE4]\Build\  
+- C:\[Ваш проект на UE4]\Intermediate\  
 - C:\[Ваш проект на UE4]\DerivedDataCache  
 Запускаем анрил и билдим.  
 
