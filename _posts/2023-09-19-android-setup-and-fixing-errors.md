@@ -4,13 +4,11 @@ title: Unreal Engine 4.27 настройка Android билда
 published: true
 ---
 ![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.preview.png)
-# Введение
 К сожалению [официальный гайд](https://docs.unrealengine.com/4.27/en-US/SharingAndReleasing/Mobile/Android/Setup/) по настройке Android билда на UE4.27 устарел и если сейчас полностью следовать ему, то вы гарантированно получите такие ошибки:  
 - Could not determine the dependencies of task ':app:compileDebugJavaWithJavac'.  
 - Installed Build Tools revision 34.0.0 is corrupted. Remove and install again using the SDK Manager.  
 - ERROR: cmd.exe failed with args /c "C:\PeloGetan\ProjectName\Intermediate\Android\armv7\gradle\rungradle.bat" :app:assembleDebug.  
 Я потратил много своего времени на попытки исправить эти и многие последующие ошибки. Поэтому написал этот гайд, в котором подробно объясню, что и куда надо нажимать, чтобы ничего не сломать.  
-![]({{site.baseurl}}/images/2023-09-19-android-setup-and-fixing-errors/2023-09-19-android-setup-and-fixing-errors.1.png)
 
 # Если вы делали все точно по официальному гайду и еще не успели сделать что-то еще
 На настоящий момент решение довольно простое и быстрое:  
