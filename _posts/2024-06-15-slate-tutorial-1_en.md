@@ -1,7 +1,7 @@
 ---
 layout: post
 title: UE Slate Lesson 1
-published: false
+published: true
 ---
 ![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_0.png)  
 
