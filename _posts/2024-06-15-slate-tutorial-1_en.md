@@ -1,17 +1,18 @@
 ---
 layout: post
-title: UE Slate урок 1
+title: UE Slate Lesson 1
 published: false
 ---
 ![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_0.png)  
-К моему удивлению, на просторах интернета практически нет уроков по Slate, а те, что есть, объясняют только самые основы. Пришло время это изменить. Я постараюсь написать несколько уроков, в которых затрону основные вопросы и проблемы, связанные со Slate. 
-**Отметим, что у вас должен быть хотя бы минимальный опыт работы с виджетами в Blueprints, иначе вам будет гораздо сложнее в изучении Slate.**
+
+To my surprise, there are almost no tutorials on Slate available on the internet, and those that do exist only explain the basics. It's time to change that. I will try to write a few lessons that will address the main questions and issues related to Slate. 
+**Note that you should have at least minimal experience working with Blueprints widgets, otherwise it will be much more difficult for you to learn Slate.**
 
 ## Slate
-**Slate** — это фреймворк Unreal Engine для создания пользовательского интерфейса. Всё, что вы видите на экране при запуске Unreal Engine, создано с помощью Slate: все меню, все кнопки и т.д. Виджеты на Blueprints и любые добавленные на них элементы тоже работают на Slate.  
+**Slate** is the Unreal Engine framework for creating user interfaces. Everything you see on the screen when you launch Unreal Engine is created with Slate: all menus, all buttons, etc. Blueprints widgets and any elements added to them also work on Slate.  
 
-## Заготовка для Slate виджета
-Создадим два новых файла MyWidget.h и MyWidget.cpp  
+## Slate Widget Template
+Let's create two new files MyWidget.h and MyWidget.cpp  
 **MyWidget.h:**
 
 ```cpp
@@ -40,12 +41,12 @@ void SMyWidget::Construct(const FArguments& InArgs)
 }
 ```
 
-Примерно так выглядит пустая заготовка на Slate. Пока что .cpp не содержит ничего примечательного, так как там только пустой конструктор, а вот про .h есть что рассказать. Внимательные заметят, что здесь нет стандартного UE макроса **UCLASS()**, всё потому, что Slate низкоуровневый фреймворк, и доступа к привычным функциям UObject у нас нет.  
-Дальше идут макросы **SLATE_BEGIN_ARGS(SMyWidget) {} SLATE_END_ARGS()**, они позволяют нам передавать в Slate данные, например текст, текстуру, указатель на актёра и т.д.  
-Последней идет функция **void Construct(const FArguments& InArgs);** в ней мы будем создавать наш виджет, а в аргументы подаются данные, которые мы указали в макросах.  
+This is what a basic Slate template looks like. For now, the .cpp file doesn't contain anything notable since it only has an empty constructor, but there's something to say about the .h file. Attentive readers will notice that there's no standard UE macro **UCLASS()**, and that's because Slate is a low-level framework, and we don't have access to the usual UObject functions.  
+Next are the macros **SLATE_BEGIN_ARGS(SMyWidget) {} SLATE_END_ARGS()**, which allow us to pass data to Slate, such as text, textures, pointers to actors, etc.  
+Lastly, there is the function **void Construct(const FArguments& InArgs);** where we will create our widget, and the arguments are the data we specified in the macros.  
 
-## Первый виджет на Slate
-Мы создадим простой виджет, который будет выводить на экран текущее время:  
+## First Slate Widget
+We will create a simple widget that will display the current time:  
 **MyWidget.cpp**
 
 ```cpp
@@ -76,21 +77,21 @@ FText SMyWidget::GetTime() const
 }
 ```
 
-Этот код сильно отличается от привычного кода на Unreal Engine, не стоит пугаться, всё достаточно просто. В Slate всё работает по типу слотов (контейнеров), которые могут содержать что-то, в том числе другие слоты.  
-Для наглядности я собрал такой же виджет в Blueprints, вот как он выглядит:
+This code is quite different from the usual Unreal Engine code, but don't be afraid, it's pretty simple. In Slate, everything works with slots (containers) that can contain something, including other slots.  
+For clarity, I created the same widget in Blueprints, and here is what it looks like:
 
 ![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_2.png)  
 
-Сначала идет **ChildSlot**, это слот, содержащий всех потомков этого виджета. Мы крепим к нему все элементы, которые будут написаны далее.  
-**.HAlign(HAlign_Center).VAlign(VAlign_Center)** — это расположение **ChildSlot**, в данном случае по центру по вертикали и горизонтали. Сразу замечу, что именно таким образом производится настройка и изменение элементов Slate: через точку и вызов нужного параметра, например: **.HAlign(HAlign_Center) .Text(FText::FromString("Some Text")) .Image(PathToImage)**.
-Дальше идет квадратная скобка **\[**, которая открывает содержимое слота **ChildSlot**, закрывается он в конце обратным символом с точкой и запятой **];**, но только главный слот закрывается точкой с запятой, слоты внутри главного слота закрываются просто квадратной скобкой **]**.
+First, we have **ChildSlot**, which is a slot containing all the descendants of this widget. We attach all the elements that will be written below to it.  
+**.HAlign(HAlign_Center).VAlign(VAlign_Center)** is the alignment of **ChildSlot**, in this case, centered both vertically and horizontally. Note that this is how the settings and modifications of Slate elements are made: through a dot and calling the desired parameter, for example: **.HAlign(HAlign_Center) .Text(FText::FromString("Some Text")) .Image(PathToImage)**.
+Next, we have a square bracket **\[**, which opens the contents of the **ChildSlot**, and it is closed at the end with a reverse symbol and a semicolon **];**, but only the main slot is closed with a semicolon, the slots inside the main slot are closed with just a square bracket **]**.
 
-Далее **SNew(SBorder)**, тут мы впервые встречаем функцию Slate **SNew**, с её помощью мы создаем новые элементы, будь то слот или его содержимое. В данном случае мы создаем элемент **SBorder**. Этот элемент хранит в себе изображение в качестве подложки и слот, куда мы можем что-то поместить. Но слот только один. **.HAlign(HAlign_Center).VAlign(VAlign_Center)** также как и выше определяет расположение слота.  
-**.BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))** — в этой строке мы указываем одну из заготовленных брашей движка в качестве изображения бордера, это будет белая заливка.  
+Then we have **SNew(SBorder)**, where we first encounter the Slate function **SNew**, which we use to create new elements, whether it's a slot or its contents. In this case, we create an **SBorder** element. This element contains an image as a background and a slot where we can place something. But there's only one slot. **.HAlign(HAlign_Center).VAlign(VAlign_Center)** again defines the alignment of the slot.  
+**.BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))** — in this line, we specify one of the engine's pre-made brushes as the border image, which will be a white fill.  
 
-Дальше мы попадем в слот внутри **SBorder** и создаем **STextBlock**, которому задаем в качестве аргумента **.Text** функцию. Можно и просто написать что-то вроде **.Text(FText::FromString("Hello, Slate!"))**, и это будет работать, но так как время не стоит на месте (а жаль), его надо постоянно обновлять, а если указать в качестве аргумента функцию, то элемент будет сам обновляться. **.ColorAndOpacity(FLinearColor::Black)** делает цвет шрифта черным. Функцию **SMyWidget::GetTime()** объяснять не буду, так как там простой UE код.  
+Next, we enter the slot inside **SBorder** and create an **STextBlock**, to which we assign a function as an argument for **.Text**. You can also write something like **.Text(FText::FromString("Hello, Slate!"))**, and it will work, but since time doesn't stand still (unfortunately), it needs to be constantly updated, and if you specify a function as an argument, the element will update itself. **.ColorAndOpacity(FLinearColor::Black)** makes the text color black. I won't explain the **SMyWidget::GetTime()** function as it's simple UE code.  
 
-Отлично, у нас есть виджет, но как его показать на экране? Через HUD, поэтому создаем новый класс:  
+Great, we have a widget, but how do we display it on the screen? Through the HUD, so let's create a new class:  
 **MyHUD.h**
 
 ```cpp
@@ -131,11 +132,11 @@ void AMyHUD::BeginPlay()
 }
 ```
 
-В .h файле мы сохранили ссылку на виджет, а в .cpp создали и добавили Slate виджет на экран. Теперь в гейммоде нужно указать **MyHUD** как HUD по умолчанию и можно запускать проект.
+In the .h file, we saved a reference to the widget, and in the .cpp file, we created and added the Slate widget to the screen. Now, in the game mode, you need to specify **MyHUD** as the default HUD and you can launch the project.
 
 ![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_1.png)  
 
-## Заключение
-С помощью Slate можно создать почти всё, что угодно: меню, инвентарь, блокнот, да хоть целую игру. Главное — перестать его бояться и понять основы. В следующих уроках я покажу, как на Slate создать UI системy инвентаря.
+## Conclusion
+With Slate, you can create almost anything: menus, inventories, notebooks, even entire games. The main thing is to stop being afraid of it and understand the basics. In the next lessons, I will show you how to create an inventory UI system with Slate.
 
-![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_3.png)  
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_3.png)
