@@ -4,8 +4,8 @@ title: UE Slate Lesson 1
 published: true
 ---
 ![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_0.png)  
-
 To my surprise, there are almost no tutorials on Slate available on the internet, and those that do exist only explain the basics. It's time to change that. I will try to write a few lessons that will address the main questions and issues related to Slate. 
+
 **Note that you should have at least minimal experience working with Blueprints widgets, otherwise it will be much more difficult for you to learn Slate.**
 
 ## Slate
