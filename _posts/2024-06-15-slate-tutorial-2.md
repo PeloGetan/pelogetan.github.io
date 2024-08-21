@@ -12,9 +12,63 @@ published: true
 Создадим файл InventoryComponent.h:
 **InventoryComponent.h**
 
+```.h
+#pragma once
+#include "CoreMinimal.h"
+#include "Components/ActorComponent.h"
+#include "InventoryComponent.generated.h"
 
+UCLASS(Blueprintable, BlueprintType)
+class LEARNSLATE_API AItem : public AActor
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item")
+	FSlateBrush ItemIcon;
+};
 
+USTRUCT(BlueprintType)
+struct FItem
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	TSubclassOf<AItem> ItemClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	int32 Count;
+
+	FItem()
+	{
+		ItemClass = nullptr;
+		Count = 0;
+	}
+
+	FItem(TSubclassOf<AItem> aItemClass, int32 aCount)
+	{
+		ItemClass = aItemClass;
+		Count = aCount;
+	}
+};
+
+UCLASS(Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
+class LEARNSLATE_API UInventoryComponent : public UActorComponent
+{
+	GENERATED_BODY()
+public:
+	UInventoryComponent();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	int32 InventorySizeX;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	int32 InventorySizeY;
+
+private:
+	TArray<FItem> Items;
+	
+};
+```  
+В этом коде мы добалвяем класс **AItem** который представляет собой класс предмета и пока хранит в себе только иконку, структуру **FItem** которая хранит в себе класс предмета и его кол-во, а так же систему инвентаря **UInventoryComponent**, которая хранит в себе предметы с помощью структуры **FItem**.
 
 
 
