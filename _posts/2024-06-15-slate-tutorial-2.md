@@ -345,12 +345,69 @@ public:
 	UWInventoryMainBar* InventoryMainBar;
 };
 ```
-Он небольшой и по сути у нас тут кроме самого класса есть два указателя **UCanvasPanel RootWidget;** и **UWInventoryMainBar InventoryMainBar;**
-
+Он небольшой и по сути у нас тут кроме самого класса есть два указателя **UCanvasPanel RootWidget;** и **UWInventoryMainBar InventoryMainBar;**, но самое главное тут, это **meta=(BindWidget)** в **UPROPERTY**. Эта мета работает следующим образом: в **Blueprint** виджете обязан быть виджет, на который есть указатель, иначе Blueprint не сбилдится и будет выдавать ошибку. Это гарантирует, что у нас не возникнет ситуации, когда мы обращаемся к виджету через указатель, а там nullptr. В нашем случае мы обязаны добавить в **Blueprint** виджет **UCanvasPanel** с именем **RootWidget** и **UWInventoryMainBar** с именем **InventoryMainBar**.  
 
 
 ## Настройка HUD
-Теперь 
+Теперь нужно добавить этот виджет в **HUD**, поэтому немного изменим код в **MyHUD.h** и **MyHUD.cpp**:  
+**MyHUD.h**
+```
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/HUD.h"
+#include "MyHUD.generated.h"
+
+class UWMain;
+
+UCLASS()
+class LEARNSLATE_API AMyHUD : public AHUD
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, Category = "Widgets")
+	TSubclassOf<UUserWidget> MainWidgetClass;
+
+protected:
+	virtual void BeginPlay() override;
+	UWMain* MainWidget;
+};
+```
+
+Мы добавили ссылку на наш класс виджета.  
+
+**MyHUD.cpp**
+```
+#include "MyHUD.h"
+#include "UWMain.h"
+#include "Blueprint/UserWidget.h"
+
+void AMyHUD::BeginPlay()
+{
+	Super::BeginPlay();
+	MainWidget = CreateWidget<UWMain>(GetWorld(), MainWidgetClass);
+	if(MainWidget)
+	{
+		MainWidget->AddToViewport();
+	}
+}
+```
+
+Создаем класс виджета и добавляем на экран.  
+
+Все готово, теперь запускаем движок. Первым делом добавляем в класс игрока инвентарь.  
+
+Создаем виджет и добавляем в него виджеты  
+
+Создаем HUD и добавляем в него наш класс виджета
+
+Создаем гейм мод  
+
+Добавляем в него HUD и игрока  
+
+Запускаем и радуемся
+
 
 
 
