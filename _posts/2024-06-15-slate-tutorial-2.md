@@ -7,8 +7,7 @@ published: false
 Это второй урок по Slate, в нем мы начнем создание инвентаря на этом фреймворке.  
 
 ## Инвентарь и предметы
-Прежде чем делать UI ячейки, нужно написать код, который она будет визуализировать. Я написать примитивную и не до конца функциональную систему инвентаря,
- просто чтобы её хватило для отображения информации в ячейке.  
+Прежде чем делать UI ячейки, нужно написать код, который она будет визуализировать. Систему инвентаря я буду писать постепенно в каждом уроке добавляя новый функционал. В этом уроке я напишу только то, что необходимо для отображения информации в ячейке.
 Создадим файлы InventoryComponent.h и InventoryComponent.cpp:  
 
 **InventoryComponent.h**
@@ -90,7 +89,7 @@ void UInventoryComponent::BeginPlay()
  - Иконка  
  - Количество  
 
-Первым делом нужно добавить в модули в файле **название_вашего_проекта.Build.cs** в **PublicDependencyModuleNames** поле "**UMG**", примерно будет выглядеть так:  
+Сейчас нам нужно добавить в модули в файле **название_вашего_проекта.Build.cs** в **PublicDependencyModuleNames** поле "**UMG**", примерно будет выглядеть так:  
 PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "**UMG**" });  
 Это необходимо, потому что в этом уроке мы начнем работать с новыми классами пользовательского интерфейса.  
 
@@ -117,6 +116,9 @@ public:
 	FText GetItemCount() const;
 };
 ```
+
+**.h** файл ничего нового в себе не несет, кроме аргумента **SLATE_ARGUMENT(FInventoryItem*, Item)**, с его помощью мы передаем в виджет указатель на Item.  
+
 **ItemSlotWidget.cpp**
 ```
 void SItemSlotWidget::Construct(const FArguments& InArgs)
@@ -194,7 +196,7 @@ FText SItemSlotWidget::GetItemCount() const
 }
 ```
 
-**.h** файл ничего нового в себе не несет, кроме аргумента **SLATE_ARGUMENT(FInventoryItem*, Item)**, с его помощью мы передаем в виджет указатель на Item. А вот **.cpp** сильно возрос по сравнению с прошлым уроком. Хоть он и стал больше, страшного в нем ничего нет, вот как он выглядит:  
+**.cpp** сильно возрос по сравнению с прошлым уроком. Хоть он и стал больше, страшного в нем ничего нет, вот как он выглядит:  
 - Черный задник размером 110 на 110 выполняющий роль рамки ячейки.  
   /- Белый задник размером 100 на 100 выполняющий роль фона ячейки.  
   /- Иконка предмета  
@@ -203,7 +205,119 @@ FText SItemSlotWidget::GetItemCount() const
 
 ## Панель инвентаря
 Теперь когда у нас есть ячейка, нужно сделать виджет, который будет дублировать столько раз, чтобы отобразить весь инвентарь.  
-Создадим два файла 
+Создадим два файла WInventoryMainBar.h и WInventoryMainBar.cpp  
+**WInventoryMainBar.h**
+```
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Components/Widget.h"
+#include "WInventoryMainBar.generated.h"
+
+class LEARNSLATE_API SInventoryMainBar : public SCompoundWidget
+{
+public:
+	SLATE_BEGIN_ARGS(SInventoryMainBar) {}
+	SLATE_ARGUMENT(TWeakObjectPtr<class UInventoryComponent>, Inventory)
+	SLATE_END_ARGS()
+
+	void Construct(const FArguments& InArgs);
+	TWeakObjectPtr<class UInventoryComponent> Inventory;
+	TArray<TSharedPtr<class SItemSlotWidget>> MainInventoryItemsWidgets;
+};
+
+UCLASS(Blueprintable, BlueprintType)
+class LEARNSLATE_API UWInventoryMainBar : public UWidget
+{
+	GENERATED_BODY()
+public:
+	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (ExposeOnSpawn = true), Category = "InventoryMainBar")
+	class UInventoryComponent* InventoryComponent;
+
+	virtual const FText GetPaletteCategory() override;
+protected:
+	virtual TSharedRef<SWidget> RebuildWidget() override;
+	TSharedPtr<SInventoryMainBar> InventoryMainBarWidget;
+};
+```
+
+В **.h** появился новый класс **UWidget**, его можно назвать прослойкой между чисто **C++ Slate** и **Bluepint Widgets**. UWidget наследник UVisual, который в свою очередь наследник UObject и для нас это отличная новость, потому что теперь нам доступен весь его функционал. Кроме того, UWidget можно добавлять напрямую в Blueprint виджете прямо в эдиторе, что позволяет нам заниматься версткой этих элементов мышкой в окне, а не кодом в файле. Далее о функциях:  
+**virtual void ReleaseSlateResources(bool bReleaseChildren)** нужна для очистки нашего Slate виджета из памяти.  
+**virtual const FText GetPaletteCategory()** позволяет нам задать категорию этому виджету, по которой мы потом сможем найти его в Blueprint виджете.  
+**virtual TSharedRef/<SWidget/> RebuildWidget()** создает Slate виджет.  
+
+**WInventoryMainBar.cpp**  
+```
+#include "WInventoryMainBar.h"
+#include "InventoryComponent.h"
+#include "ItemSlotWidget.h"
+#include "Widgets/Layout/SGridPanel.h"
+
+void SInventoryMainBar::Construct(const FArguments& InArgs)
+{
+	Inventory = InArgs._Inventory;
+
+	TSharedPtr<SGridPanel> GridPanel;
+	ChildSlot
+	.HAlign(HAlign_Left)
+	.VAlign(VAlign_Center)
+	[
+			SAssignNew(GridPanel, SGridPanel)
+	];
+
+	int32 SlotsCountX = Inventory.IsValid() ? Inventory->InventorySizeX : 3;
+	int32 SlotsCountY = Inventory.IsValid() ? Inventory->InventorySizeY : 3;
+	int32 Counter = 0;
+	for (int32 x = 0; x < SlotsCountX; x++)
+	{
+		for (int32 y = 0; y < SlotsCountY; y++)
+		{
+			TSharedPtr<SItemSlotWidget> NewWidget;
+			GridPanel->AddSlot(y, x).Padding(10)
+			[
+				SAssignNew(NewWidget, SItemSlotWidget)
+				.Item(Inventory.IsValid() ? &Inventory->GetItems()[Counter] : nullptr)
+			];
+			MainInventoryItemsWidgets.Add(NewWidget);
+			Counter++;
+		}
+	}
+}
+
+void UWInventoryMainBar::ReleaseSlateResources(bool bReleaseChildren)
+{
+	InventoryMainBarWidget.Reset();
+}
+
+TSharedRef<SWidget> UWInventoryMainBar::RebuildWidget()
+{
+	APlayerController * Controller = GetOwningPlayer();
+	if(Controller)
+	{
+		APawn * Pawn = Controller->GetPawn();
+		if(Pawn)
+		{
+			InventoryComponent = Pawn->FindComponentByClass<UInventoryComponent>();
+		}
+	}
+
+	InventoryMainBarWidget = SNew(SInventoryMainBar).Inventory(InventoryComponent);
+	return InventoryMainBarWidget.ToSharedRef();
+}
+
+const FText UWInventoryMainBar::GetPaletteCategory()
+{
+	return FText::FromString("Inventory");
+}
+
+```
+
+В **.cpp** файле я обращу внимание на две вещи, первая, это функция **void SInventoryMainBar::Construct(const FArguments& InArgs)** :
+Так как нам нужно будет циклом создать нужное кол-во ячеек, то GridPanel и создаем заранее, при том важно создать и назначить его в переменную внутри **ChildSlot**. Теперь мы можем делать с ним все что хотим и вызывать где хотим. Далее я делаю важную проверку на валидность указателя на инвентарь, потому что **во время настройки виджета в эдиторе инвентаря не существует!**
+
+
 
 
 
