@@ -314,8 +314,43 @@ const FText UWInventoryMainBar::GetPaletteCategory()
 
 ```
 
-В **.cpp** файле я обращу внимание на две вещи, первая, это функция **void SInventoryMainBar::Construct(const FArguments& InArgs)** :
-Так как нам нужно будет циклом создать нужное кол-во ячеек, то GridPanel и создаем заранее, при том важно создать и назначить его в переменную внутри **ChildSlot**. Теперь мы можем делать с ним все что хотим и вызывать где хотим. Далее я делаю важную проверку на валидность указателя на инвентарь, потому что **во время настройки виджета в эдиторе инвентаря не существует!**
+В **.cpp** файле обратим внимание на функцию **void SInventoryMainBar::Construct(const FArguments& InArgs)** :
+Так как нам нужно будет циклом создать нужное кол-во ячеек, то **GridPanel** и создаем заранее, при том важно создать и назначить его в переменную внутри **ChildSlot**. Теперь мы можем делать с ним все что хотим и вызывать где хотим. Далее я делаю важную проверку на валидность указателя на инвентарь, потому что **во время настройки виджета в эдиторе инвентаря не существует!**  
+Далее мы циклом добавляем в **GridPanel** ячейки инвентаря и назначаем им указатели на структуры элементов инвентаря, которые они будут отображать, опять же делая проверку на валидность инвентаря и в случае не валидности, даем ячейке **nullptr**.  
+
+Далее наш **UWidget** класс **UWInventoryMainBar**, функции **ReleaseSlateResources()** и **GetPaletteCategory()** очень просты, поэтому перейдем к **RebuildWidget()** :  
+Наша цель тут, создать Slate виджет и дать ему указатель на инвентарь, поэтому пытаемся получить его из **Pawn** игрока. Если мы не получим инвентарь, что обязательно произойдет во время настройки **Blueprint** виджета, то **Slate** виджет создатся с нулевым указателем на инвентарь, что мы предусмотрели, сделав проверки на это.  
+
+Теперь у нас есть виджет, который мы можем добавить в **Blueprint** виджет, но чтобы получить полный контроль над ним в коде, лучше и создать его в коде. Нам нужен класс **UUserWidget**.  
+Создадим файл UWMain.h:  
+**UWMain.h**
+```
+#pragma once
+#include "CoreMinimal.h"
+#include "Blueprint/UserWidget.h"
+#include "UWMain.generated.h"
+
+class UCanvasPanel;
+class UWInventoryMainBar;
+
+UCLASS(Blueprintable, BlueprintType)
+class LEARNSLATE_API UWMain : public UUserWidget
+{
+	GENERATED_BODY()
+public:
+
+	UPROPERTY(BlueprintReadOnly, Category = "UWMain", meta=(BindWidget))
+	UCanvasPanel* RootWidget;
+	UPROPERTY(BlueprintReadOnly, Category = "UWMain", meta=(BindWidget))
+	UWInventoryMainBar* InventoryMainBar;
+};
+```
+Он небольшой и по сути у нас тут кроме самого класса есть два указателя **UCanvasPanel RootWidget;** и **UWInventoryMainBar InventoryMainBar;**
+
+
+
+## Настройка HUD
+Теперь 
 
 
 
