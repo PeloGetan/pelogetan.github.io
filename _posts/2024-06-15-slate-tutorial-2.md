@@ -410,11 +410,22 @@ void AMyHUD::BeginPlay()
 
 ## Последние шаги в блюпринтах  
 Запускаем движок. Сначала создадим дочерний класс Item чтобы нам было что положить в инвентарь.  
+
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_5.png)  
+
 В этом классе меняем Image на любой наш, я использую изображение из движка: T_UE4Logo_Mask.  
+
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_6.png)  
 
 Теперь открываем нашего игрока **ThirdPersonCharacter**, выбираем **InventoryComponent** и добавляем в массив предметов наш новый класс, количество можно выбрать произвольное.  
 
-Теперь создадим дочерний класс нашего виджета **UWMain** и назовем **W_Main**. Открываем класс и видим те ошибки, о которых я говорил:  
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_7.png)  
+
+Теперь создадим дочерний класс нашего виджета **UWMain** и назовем **W_Main**.  
+
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_8.png) 
+
+Открываем класс и видим те ошибки, о которых я говорил:  
 ```
 A required widget binding "RootWidget" of type  Canvas Panel  was not found.
 A required widget binding "InventoryMainBar" of type  WInventory Main Bar  was not found.
@@ -423,18 +434,35 @@ A required widget binding "InventoryMainBar" of type  WInventory Main Bar  was n
 ```
 Виджет не будет скомпилирован, пока мы не добавим сюда наши виджеты. Добавляем виджет **UCanvasPanel** с именем **RootWidget** и **UWInventoryMainBar** с именем **InventoryMainBar**.  
 
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_9.png) 
+
 Кроме того, я дополнительно немного изменю настройки **InventoryMainBar**, чтобы он находился по центру левого края экрана. Настройки на изображении ниже:  
 
-Теперь нужно создать дочерний класс HUD. Назовем его **HUD_Base** и укажем в нем класс виджета **UWMain**.  
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_10.png) 
 
-И наконец последнее, что нам нужно создать, это дочерний **GameMode** от класса **"имя_вашего_проекта_GameMode.h"**, назовем его **GM_Base**. В нем укажем наш **HUD_Base**, все остальные настройки можно не трогать.  
+Теперь нужно создать дочерний класс HUD.  
+
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_11.png) 
+
+Назовем его **HUD_Base** и укажем в нем класс виджета **UWMain**.  
+
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_12.png) 
+
+И наконец последнее, что нам нужно создать, это дочерний **GameMode** от класса **"имя_вашего_проекта_GameMode.h"**, назовем его **GM_Base**.  
+
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_13png) 
+
+В нем укажем наш **HUD_Base**, все остальные настройки можно не трогать.  
+
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_14.png) 
 
 Осталось указать наш новый GameMode в настройках проекта.  
 
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_15.png) 
+
 Поздравляю, вы справились! Можно запускать проект и вы должны увидеть на экране инвентарь с предметами.  
 
+![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-2/2024-09-03-slate-tutorial-2_16.png) 
 
 ## Заключение
 После этого урока вы будете иметь хорошее представление о возможностях Slate и представление о том, как его использовать. По большей части, самое сложное позади, дальше будут лишь появляться новые функции, например обработка нажатий на виджет, или DragAndDrop операции но основа останется прежняя, поэтому я поздравляю всех, кто дошел до этого момента, вы освоили основы этого фреймворка.
-
-![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_3.png)
