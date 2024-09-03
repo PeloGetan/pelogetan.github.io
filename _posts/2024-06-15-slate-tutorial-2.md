@@ -1,7 +1,6 @@
 ---
 layout: post
 title: UE Slate урок 2
-published: false
 ---
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_16.png)  
 Это второй урок по Slate, в нем мы начнем создание инвентаря на этом фреймворке.  
