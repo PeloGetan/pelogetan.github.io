@@ -138,6 +138,7 @@ void AMyHUD::BeginPlay()
 
 ## Заключение
 С помощью Slate можно создать почти всё, что угодно: меню, инвентарь, блокнот, да хоть целую игру. Главное — перестать его бояться и понять основы. В следующих уроках я покажу, как на Slate создать UI системy инвентаря.  
+
 [UE Slate урок 2](https://pelogetan.github.io/slate-tutorial-2/)
 
 ![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_3.png)
