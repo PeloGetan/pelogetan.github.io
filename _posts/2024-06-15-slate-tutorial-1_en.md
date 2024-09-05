@@ -138,6 +138,7 @@ In the .h file, we saved a reference to the widget, and in the .cpp file, we cre
 
 ## Conclusion
 With Slate, you can create almost anything: menus, inventories, notebooks, even entire games. The main thing is to stop being afraid of it and understand the basics. In the next lessons, I will show you how to create an inventory UI system with Slate.  
+
 [UE Slate lesson 2](https://pelogetan.github.io/slate-tutorial-2_en/)
 
 ![]({{site.baseurl}}/images/2024-06-15-slate-tutorial-1/2024-06-15-slate-tutorial-1_3.png)
