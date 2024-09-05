@@ -1,7 +1,7 @@
 ---
 layout: post
 title: UE Slate lesson 2
-published: false
+published: true
 ---
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_16.png)  
 This is the second lesson on Slate, where we will start creating an inventory system using this framework.  
