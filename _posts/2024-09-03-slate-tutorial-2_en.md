@@ -4,11 +4,11 @@ title: UE Slate lesson 2
 published: false
 ---
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_16.png)  
-Это второй урок по Slate, в нем мы начнем создание инвентаря на этом фреймворке.  
+This is the second lesson on Slate, where we will start creating an inventory system using this framework.  
 
-## Инвентарь и предметы
-Прежде чем приступать к созданию UI ячейки, нужно написать код, который она будет визуализировать. Систему инвентаря я буду разрабатывать постепенно, добавляя новый функционал в каждом уроке. В этом уроке я напишу только те части, которые необходимы для отображения информации в ячейке.  
-Создадим файлы **InventoryComponent.h** и **InventoryComponent.cpp**:  
+## Inventory and Items
+Before proceeding with the creation of the UI cell, you need to write the code that it will visualize. I will develop the inventory system gradually, adding new functionality in each lesson. In this lesson, I will write only the parts necessary for displaying information in the cell.  
+Let's create the **InventoryComponent.h** and **InventoryComponent.cpp** files:  
 
 **InventoryComponent.h**
 ```
@@ -81,34 +81,33 @@ void UInventoryComponent::BeginPlay()
 	}
 }
 ```
-В этом коде мы добавляем класс **AItem**, который представляет собой класс предмета и пока хранит в себе только иконку, структуру **FInventoryItem**, которая содержит информацию о классе предмета и его количестве, а также систему инвентаря **UInventoryComponent**, которая использует структуру **FInventoryItem** для хранения предметов. В **BeginPlay** мы создаем пустые слоты для предметов. Эти слоты являются частью системы инвентаря, и о них мы поговорим в следующих уроках.  
+In this code, we add the **AItem** class, which represents an item class and currently only holds the icon, the **FInventoryItem** structure, which contains information about the item class and its quantity, and the **UInventoryComponent** inventory system, which uses the **FInventoryItem** structure to store items. In **BeginPlay**, we create empty slots for items. These slots are part of the inventory system, and we will talk about them in the following lessons.  
 
-Теперь нужно добавить этот компонент в класс нашего **Character**. Откроем **"имя_вашего_проекта_Character.h"** и добавим следующий код:  
+Now we need to add this component to our **Character** class. Open **"your_project_name_Character.h"** and add the following code:    
 ```
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory")
 	class UInventoryComponent* InventoryComponent;
 ```
 
-В **.cpp** файле в конструкторе **Character** создаем компонент и назначаем его в нашу переменную:  
+In the **.cpp** file, in the **Character** constructor, we create the component and assign it to our variable:    
 ```
 InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 ```
 
-## Ячейка инвентаря
-Понятно, что инвентарь будет состоять из ячеек, по сути, мы создадим только одну ячейку и будем дублировать её нужное нам количество раз.  
-Ячейка будет нести в себе следующую информацию:  
- - Иконка  
- - Количество  
+## Inventory Cell
+It is clear that the inventory will consist of cells, essentially, we will create only one cell and duplicate it as many times as needed.  
+The cell will contain the following information:  
+- Icon  
+- Quantity   
 
-Сейчас нам нужно добавить в модули в файле **название_вашего_проекта.Build.cs** в **PublicDependencyModuleNames** поле "**UMG**", примерно будет выглядеть так:  
+Now we need to add the **"UMG"** module to the **PublicDependencyModuleNames** field in the **your_project_name.Build.cs** file, and it will look something like this:   
 
 ```
 PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "UMG" });  
 ```
 
-Это необходимо, потому что в этом уроке мы начнем работать с новыми классами пользовательского интерфейса.  
-Создами два новых файла ItemSlotWidget.cpp и ItemSlotWidget.h:  
+This is necessary because in this lesson we will start working with new user interface classes. Let's create two new files, **ItemSlotWidget.cpp** and **ItemSlotWidget.h**:  
 
 **ItemSlotWidget.h**
 ```
@@ -132,7 +131,7 @@ public:
 };
 ```
 
-**.h** файл ничего нового в себе не несет, кроме аргумента **SLATE_ARGUMENT(FInventoryItem*, Item)**, с помощью которого мы передаем в виджет указатель на **Item**. 
+The **.h** file doesn't bring anything new except the **SLATE_ARGUMENT(FInventoryItem*, Item)** argument, which allows us to pass a pointer to the **Item** into the widget.  
 
 **ItemSlotWidget.cpp**
 ```
@@ -211,16 +210,15 @@ FText SItemSlotWidget::GetItemCount() const
 }
 ```
 
-**.cpp** файл заметно увеличился по сравнению с прошлым уроком. Несмотря на его возросший объем, в нем нет ничего сложного. Вот как он устроен: 
-- Черный задник размером 110 на 110 выполняющий роль рамки ячейки.  
-  /- Белый задник размером 100 на 100 выполняющий роль фона ячейки.  
-  /- Иконка предмета  
-  /- Текст с количеством предметов  
-Также есть две функции, которые получают информацию из предмета: **GetItemIcon()** и **GetItemCount()**.
+The **.cpp** file has grown significantly compared to the previous lesson. Although it has become larger, there is nothing complicated about it. Here's how it's structured:  
+- A black background of size 110x110 that serves as the cell frame.  
+- A white background of size 100x100 that serves as the cell's background.  
+- The item icon.  
+- The text displaying the item count.  
+Additionally, there are two functions that retrieve information from the item: **GetItemIcon()** and **GetItemCount()**.  
 
-## Панель инвентаря
-Теперь, когда у нас есть ячейка, нужно сделать виджет, который будет дублироваться столько раз, чтобы отобразить весь инвентарь.  
-Создадим два файла WInventoryMainBar.h и WInventoryMainBar.cpp  
+## Inventory Panel
+Now that we have a cell, we need to create a widget that will be duplicated as many times as needed to display the entire inventory. Let's create two files: **WInventoryMainBar.h** and **WInventoryMainBar.cpp**.  
 **WInventoryMainBar.h**
 ```
 #pragma once
@@ -258,12 +256,12 @@ protected:
 };
 ```
 
-В **.h** появился новый класс **UWidget**, его можно назвать прослойкой между чистым **C++ Slate** и **Bluepint Widgets**. **UWidget** является наследником **UVisual**, который в свою очередь наследуется от **UObject**. Это хорошая новость для нас, так как теперь нам доступен весь его функционал. Кроме того, **UWidget** можно добавлять напрямую в **Blueprint** виджете прямо в редакторе, что позволяет заниматься версткой этих элементов мышкой в окне, а не кодом в файле.  
+The **.h** file introduces a new **UWidget** class, which can be called a bridge between pure **C++ Slate** and **Blueprint Widgets**. **UWidget** is a descendant of **UVisual**, which in turn inherits from **UObject**. This is good news for us because now we have access to all of its functionality. Moreover, **UWidget** can be added directly to the **Blueprint** widget in the editor, allowing us to design these elements by dragging them with the mouse in the editor, rather than writing them in a file.  
 
-Функции:  
-- **virtual void ReleaseSlateResources(bool bReleaseChildren)** нужна для очистки нашего Slate виджета из памяти.  
-- **virtual const FText GetPaletteCategory()** позволяет нам задать категорию этому виджету, по которой мы потом сможем найти его в Blueprint виджете.  
-- **virtual TSharedRef/<SWidget/> RebuildWidget()** создает Slate виджет.  
+Functions:  
+- **virtual void ReleaseSlateResources(bool bReleaseChildren)** is needed to clean up our Slate widget from memory.  
+- **virtual const FText GetPaletteCategory()** allows us to set a category for this widget, which will help us find it later in the Blueprint widget.  
+- **virtual TSharedRef/<SWidget/> RebuildWidget()** creates the Slate widget.  
 
 **WInventoryMainBar.cpp**  
 ```
@@ -331,15 +329,15 @@ const FText UWInventoryMainBar::GetPaletteCategory()
 
 ```
 
-В **.cpp** файле обратите внимание на функцию **void SInventoryMainBar::Construct(const FArguments& InArgs)** :
-Так как нам нужно будет циклом создать нужное количество ячеек, **GridPanel** создается заранее, и его важно назначить в переменную внутри **ChildSlot**. Далее идет важная проверка на валидность указателя на инвентарь, потому что **во время настройки виджета в эдиторе инвентаря не существует!**  
-Затем мы циклом добавляем в **GridPanel** ячейки инвентаря и назначаем им указатели на структуры элементов инвентаря, которые они будут отображать, снова проверяя валидность инвентаря. В случае невалидности ячейке присваивается **nullptr**.
+In the **.cpp** file, pay attention to the **void SInventoryMainBar::Construct(const FArguments& InArgs)** function:  
+Since we need to create the required number of cells in a loop, the **GridPanel** is created in advance, and it's important to assign it to a variable inside **ChildSlot**. Next comes the important check for the validity of the inventory pointer because **during widget setup in the editor, the inventory does not exist!**  
+We then loop through the **GridPanel** to add inventory cells and assign them pointers to the inventory item structures they will display, again checking the inventory's validity. If the inventory is invalid, the cell is assigned **nullptr**.  
 
-Далее наш **UWidget** класс **UWInventoryMainBar**, функции **ReleaseSlateResources()** и **GetPaletteCategory()** очень просты, поэтому перейдем к **RebuildWidget()** :  
-Наша цель тут, создать Slate виджет и дать ему указатель на инвентарь, поэтому пытаемся получить его из **Pawn** игрока. Если мы не получим инвентарь, что обязательно произойдет во время настройки **Blueprint** виджета, то **Slate** виджет создатся с нулевым указателем на инвентарь, что мы предусмотрели, сделав проверки на это.  
+Next, our **UWidget** class **UWInventoryMainBar**. The functions **ReleaseSlateResources()** and **GetPaletteCategory()** are quite simple, so let's move on to **RebuildWidget()**:  
+Our goal here is to create a Slate widget and pass it a pointer to the inventory, so we try to retrieve it from the player's **Pawn**. If we do not retrieve the inventory, which will certainly happen during the setup of the **Blueprint** widget, the **Slate** widget will be created with a null pointer to the inventory, which we accounted for by performing checks for this.  
 
-Теперь у нас есть виджет, который мы можем добавить в **Blueprint** виджет, но чтобы получить полный контроль над ним в коде, лучше и создать его в коде. Нам нужен класс **UUserWidget**.  
-Создадим файл UWMain.h:  
+Now we have a widget that can be added to the **Blueprint** widget, but to gain full control over it in the code, it's better to create it in the code. We need the **UUserWidget** class.  
+Let's create the **UWMain.h** file:  
 **UWMain.h**
 ```
 #pragma once
@@ -362,11 +360,11 @@ public:
 	UWInventoryMainBar* InventoryMainBar;
 };
 ```
-Этот файл небольшой и содержит, помимо самого класса, два указателя: **UCanvasPanel RootWidget** и **UWInventoryMainBar InventoryMainBar**. Самое важное здесь - это **meta=(BindWidget)** в **UPROPERTY**. Эта мета работает следующим образом: в **Blueprint** виджете обязательно должен быть дочерний виджет, на который есть указатель, иначе **Blueprint** не скомпилируется и будет выдавать ошибку. Это гарантирует, что у нас не возникнет ситуации, когда мы обращаемся к виджету через указатель, а там **nullptr**. В нашем случае мы обязаны добавить в **Blueprint** виджет **UCanvasPanel** с именем **RootWidget** и **UWInventoryMainBar** с именем **InventoryMainBar**.  
+This file is small and, besides the class itself, contains two pointers: **UCanvasPanel RootWidget** and **UWInventoryMainBar InventoryMainBar**. The most important part here is the **meta=(BindWidget)** in **UPROPERTY**. This meta information works as follows: in the **Blueprint** widget, there must be a child widget that has a pointer, otherwise the **Blueprint** will not compile and will throw an error. This guarantees that we will not encounter a situation where we reference a widget through a pointer, but it turns out to be **nullptr**. In our case, we are required to add a **UCanvasPanel** widget named **RootWidget** and a **UWInventoryMainBar** widget named **InventoryMainBar** to the **Blueprint** widget.  
 
 
-## Изменение кода HUD
-Теперь нужно добавить этот виджет в **HUD**, поэтому немного изменим код в **MyHUD.h** и **MyHUD.cpp**:  
+## HUD Code Changes
+Now we need to add this widget to the **HUD**, so we will slightly modify the **MyHUD.h** and **MyHUD.cpp** code:  
 **MyHUD.h**
 ```
 #pragma once
@@ -392,7 +390,7 @@ protected:
 };
 ```
 
-Мы добавили ссылку на наш класс виджета.  
+We have added a reference to our widget class.  
 
 **MyHUD.cpp**
 ```
@@ -410,63 +408,63 @@ void AMyHUD::BeginPlay()
 	}
 }
 ```
-Здесь в начале игры мы создаем и добавляем виджет на экран.
+Here, at the beginning of the game, we create and add the widget to the screen.  
 
-## Последние шаги в блюпринтах  
-Запускаем движок. Сначала создадим дочерний класс **AItem**, чтобы у нас был предмет, который можно будет положить в инвентарь.  
+## Final Steps in Blueprints  
+Launch the engine. First, let's create a child class of **AItem** so that we have an item to place in the inventory.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_5.png)  
 
-В этом классе меняем изображение на любое подходящее. Я использую изображение из движка: **T_UE4Logo_Mask**.
+In this class, we change the image to any suitable one. I'm using an image from the engine: **T_UE4Logo_Mask**.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_6.png)  
 
-Теперь открываем нашего игрока **ThirdPersonCharacter**, выбираем **InventoryComponent** и добавляем в массив предметов наш новый класс, количество можно выбрать произвольное, но **элементов в массиве не должно быть больше 9ти**, так как это размер нашего инвентаря.  
+Now open our **ThirdPersonCharacter**, select **InventoryComponent**, and add our new class to the item array. You can choose any quantity, but **the array should not contain more than 9 items**, as that is the size of our inventory.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_7.png)  
 
-Теперь создадим дочерний класс нашего виджета **UWMain** и назовем **W_Main**.  
+Next, create a child class of our widget **UWMain** and name it **W_Main**.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_8.png) 
 
-Открыв класс, мы видим те ошибки, о которых я говорил:  
+Upon opening the class, we see the errors I mentioned earlier:   
 ```
 A required widget binding "RootWidget" of type  Canvas Panel  was not found.
 A required widget binding "InventoryMainBar" of type  WInventory Main Bar  was not found.
 A required widget binding "RootWidget" of type  Canvas Panel  was not found.
 A required widget binding "InventoryMainBar" of type  WInventory Main Bar  was not found.
 ```
-Виджет не будет скомпилирован, пока мы не добавим соответствующие виджеты. Добавляем виджет **UCanvasPanel** с именем **RootWidget** и **UWInventoryMainBar** с именем **InventoryMainBar**.  
+The widget will not compile until we add the corresponding widgets. Add a **UCanvasPanel** widget named **RootWidget** and a **UWInventoryMainBar** widget named **InventoryMainBar**.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_9.png) 
 
-Кроме того, я немного изменю настройки **InventoryMainBar**, чтобы он находился по центру левого края экрана. Настройки указаны на изображении ниже:  
+Additionally, I will slightly change the **InventoryMainBar** settings so that it is centered on the left edge of the screen. The settings are shown in the image below:  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_10.png) 
 
-Теперь нужно создать дочерний класс HUD.  
+Now we need to create a child HUD class.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_11.png) 
 
-Назовем его **HUD_Base** и укажем в нем класс виджета **UWMain**.  
+Name it **HUD_Base** and specify the **UWMain** widget class in it.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_12.png) 
 
-И наконец, последнее, что нам нужно сделать, это создать дочерний **GameMode** от класса "**имя_вашего_проекта_GameMode.h**" и назвать его **GM_Base**.
+Finally, the last thing we need to do is create a child **GameMode** from the **your_project_name_GameMode.h** class and name it **GM_Base**.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_13png) 
 
-В нем укажем наш **HUD_Base**. Все остальные настройки можно оставить по умолчанию.   
+In this **GameMode**, we will specify our **HUD_Base**. All other settings can be left as default.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_14.png) 
 
-Осталось указать наш новый **GameMode** в настройках проекта.  
+Lastly, set our new **GameMode** in the project settings.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_15.png) 
 
-Поздравляю, вы справились! Теперь можно запускать проект, и на экране должен появиться инвентарь с предметами.  
+Congratulations, you've made it! Now you can run the project, and you should see the inventory with items on the screen.  
 
 ![]({{site.baseurl}}/images/2024-09-03-slate-tutorial-2/2024-09-03-slate-tutorial-2_16.png) 
 
-## Заключение
-После этого урока у вас будет хорошее представление о возможностях Slate и понимание того, как его использовать. Самое сложное уже позади, впереди лишь появление новых функций, таких как обработка нажатий на виджет или операции Drag-and-Drop, но основа останется прежней.
+## Conclusion
+After this lesson, you will have a good understanding of the capabilities of Slate and how to use it. The hardest part is now behind you; going forward, we will be adding new features, such as handling widget clicks or Drag-and-Drop operations, but the foundation will remain the same.  
