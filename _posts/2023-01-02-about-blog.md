@@ -3,6 +3,10 @@ layout: post
 title: Об этом блоге
 published: true
 ---
+
+Блог переехал:
+[Ghost vs Jekyll — мой опыт переезда] (https://blog.pelogetan.com/ghost-vs-jekyll/)
+
 Этот блог всецело посвящен движку Unreal Engine.
 Если более подробно, то его кодовой части.
 Информации о Unreal Engine на самом деле не так много, как может казаться.
